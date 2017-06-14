@@ -3,29 +3,21 @@ package yz.doodlejump;
 
 import org.apache.log4j.BasicConfigurator;
 import org.apache.log4j.PropertyConfigurator;
-import org.glassfish.grizzly.http.server.HttpServer;
-import org.glassfish.jersey.grizzly2.httpserver.GrizzlyHttpServerFactory;
+import io.netty.channel.Channel;
+import org.glassfish.jersey.netty.httpserver.NettyHttpContainerProvider;
 import org.glassfish.jersey.server.ResourceConfig;
-import yz.doodlejump.core.RESTConfiguration;
-import yz.doodlejump.core.Data;
-import yz.doodlejump.core.SessionManager;
+import yz.doodlejump.core.*;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URI;
+import java.net.URL;
 
 /**
  * 主类
  */
 public class Main {
-    private static String BASE_URI = null;
-
-    private static HttpServer startServer() {
-        final ResourceConfig rc = new RESTConfiguration();
-        return GrizzlyHttpServerFactory.createHttpServer(URI.create(BASE_URI), rc);
-    }
-
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws IOException, InterruptedException {
         //检测参数
         if (args.length != 2) {
             System.err.println("Usage:\n" + "java -jar doodle-jump-back-end-1.0.jar IP PORT");
@@ -39,15 +31,31 @@ public class Main {
         inputStream.close();
 
         SessionManager.init();
+        MessageManager.init();
+        TeamManager.init();
 
         Data.init();
 
-        BASE_URI = "http://" + args[0] + ":" + args[1];
-        final HttpServer server = startServer();
-        System.out.println(String.format("Jersey app started with WADL available at "
-                + "%s/application.wadl\nHit Enter to stop it...", BASE_URI));
+        final URI BASE_URI = URI.create("http://" + args[0] + ":" + args[1] + "/");
 
-        System.in.read();
-        server.shutdownNow();
+        ResourceConfig resourceConfig = new RESTConfiguration();
+
+        final Channel server = NettyHttpContainerProvider
+                .createHttp2Server(BASE_URI,
+                        resourceConfig,
+                        null
+                );
+
+        Runtime.getRuntime().addShutdownHook(new Thread(new Runnable() {
+            @Override
+            public void run() {
+                server.close();
+            }
+        }));
+
+        System.out.println(String.format("Application started. (HTTP/2 enabled!)\nTry out %sapplication.wadl\nStop the application using "
+                + "CTRL+C.", BASE_URI));
+
+        Thread.currentThread().join();
     }
 }
