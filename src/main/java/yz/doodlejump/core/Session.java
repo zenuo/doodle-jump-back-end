@@ -3,33 +3,23 @@ package yz.doodlejump.core;
  * 会话对象
  */
 public class Session {
-    /**
-     * 会话ID
-     */
+
     private String id;
-    /**
-     * 持有该会话的用户ID
-     */
-    private long userID;
-    /**
-     * 用户名
-     */
+
+    private Integer userId;
+
     private String userName;
-    /**
-     * 创建时间
-     */
+
     private long createTime;
-    /**
-     * 过期时间
-     */
+
     private long lastActiveTime;
 
     public Session() {
     }
 
-    public Session(String id, long userID, String userName, long createTime, long lastActiveTime) {
+    public Session(String id, Integer userId, String userName, long createTime, long lastActiveTime) {
         this.id = id;
-        this.userID = userID;
+        this.userId = userId;
         this.userName = userName;
         this.createTime = createTime;
         this.lastActiveTime = lastActiveTime;
@@ -43,12 +33,12 @@ public class Session {
         this.id = id;
     }
 
-    public long getUserID() {
-        return userID;
+    public Integer getUserId() {
+        return userId;
     }
 
-    public void setUserID(long userID) {
-        this.userID = userID;
+    public void setUserId(Integer userId) {
+        this.userId = userId;
     }
 
     public String getUserName() {
@@ -79,7 +69,7 @@ public class Session {
     public String toString() {
         return "Session{" +
                 "id='" + id + '\'' +
-                ", userID=" + userID +
+                ", userId=" + userId +
                 ", userName='" + userName + '\'' +
                 ", createTime=" + createTime +
                 ", lastActiveTime=" + lastActiveTime +

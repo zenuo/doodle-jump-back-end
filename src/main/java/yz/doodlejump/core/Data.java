@@ -29,7 +29,7 @@ public class Data {
     /**
      * 初始化数据库连接
      */
-    public static void initialize() {
+    public static void init() {
         try {
             DataSource dataSource = Data.getDataSource();
             TransactionFactory transactionFactory = new JdbcTransactionFactory();
