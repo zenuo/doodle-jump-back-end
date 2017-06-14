@@ -5,12 +5,12 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 /**
  * 用户
  */
-public class User {
+public class Player {
     @JsonProperty
     private Integer id;
 
     @JsonProperty
-    private String userName;
+    private String name;
 
     @JsonProperty
     private String bio;
@@ -21,12 +21,12 @@ public class User {
     @JsonProperty
     private String password;
 
-    public User() {
+    public Player() {
     }
 
-    public User(Integer id, String userName, String bio, String email, String password) {
+    public Player(Integer id, String name, String bio, String email, String password) {
         this.id = id;
-        this.userName = userName;
+        this.name = name;
         this.bio = bio;
         this.email = email;
         this.password = password;
@@ -40,12 +40,12 @@ public class User {
         this.id = id;
     }
 
-    public String getUserName() {
-        return userName;
+    public String getName() {
+        return name;
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getBio() {
@@ -74,9 +74,9 @@ public class User {
 
     @Override
     public String toString() {
-        return "User{" +
+        return "Player{" +
                 "id=" + id +
-                ", userName='" + userName + '\'' +
+                ", name='" + name + '\'' +
                 ", bio='" + bio + '\'' +
                 ", email='" + email + '\'' +
                 ", password='" + password + '\'' +

@@ -3,7 +3,8 @@ package yz.doodlejump.core;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import yz.doodlejump.constant.SessionConstant;
-import yz.doodlejump.entity.bean.User;
+import yz.doodlejump.entity.bean.Player;
+import yz.doodlejump.entity.bean.Session;
 
 import java.util.*;
 
@@ -33,13 +34,14 @@ public class SessionManager {
     }
 
     public static boolean isUserOnline(final String userName) {
-        for(Map.Entry<String, Session> entry : sessionMap.entrySet()) {
-            if (entry.getValue().getUserName().equals(userName)) {
+        for (Map.Entry<String, Session> entry : sessionMap.entrySet()) {
+            if (entry.getValue().getPlayerName().equals(userName)) {
                 return true;
             }
         }
         return false;
     }
+
     public static void invalidate(final String id) {
         sessionMap.remove(id);
     }
@@ -48,13 +50,10 @@ public class SessionManager {
         return sessionMap.get(id) == null;
     }
 
-    public static Session create(final User user) {
+    public static Session create(final Player player) {
         Session session = new Session(
-                UUID.randomUUID().toString().replace("-", ""),
-                user.getId(),
-                user.getUserName(),
-                Util.getTimeLong(),
-                Util.getTimeLong()
+                player.getId(),
+                player.getName()
         );
         sessionMap.put(session.getId(), session);
         LOGGER.info("create session: " + session);
@@ -63,11 +62,12 @@ public class SessionManager {
 
     /**
      * 根据会话id获取对应的用户id
+     *
      * @param sessionId 会话id
      * @return 用户id
      */
-    public static Integer getUserIdBySessionId(final String sessionId) {
-        return sessionMap.get(sessionId).getUserId();
+    public static Integer getPlayerIdBySessionId(final String sessionId) {
+        return sessionMap.get(sessionId).getPlayerId();
     }
 }
 

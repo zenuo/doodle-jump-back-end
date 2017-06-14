@@ -64,7 +64,7 @@ public class Data {
         //服务器
         mariadb.setUrl("jdbc:mariadb://localhost:3306/DOODLEJUMP");
         //MariaDB账户密码
-        mariadb.setUsername("doodle");
+        mariadb.setUsername("yuanzhen");
         mariadb.setPassword("123456");
         return mariadb;
     }
