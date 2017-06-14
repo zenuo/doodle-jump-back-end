@@ -17,24 +17,24 @@ public class SessionManager {
 
     private static Logger LOGGER = LoggerFactory.getLogger(SessionManager.class);
 
-    private static final Map<String, Session> sessionMap =
+    private static final Map<String, Session> SESSION_MAP =
             Collections.synchronizedMap(new LinkedHashMap<>());
+
+    private SessionManager() {
+        Thread expiredSessionWatcher = new Thread(new ExpiredSessionWatcher());
+        expiredSessionWatcher.start();
+    }
 
     public static void init() {
         LOGGER.info("SessionManager initialized");
     }
 
-    private SessionManager() {
-        Thread expireWatcherThread = new Thread(new ExpireWatcher());
-        expireWatcherThread.start();
-    }
-
-    public static Map<String, Session> getSessionMap() {
-        return sessionMap;
+    static Map<String, Session> getSessionMap() {
+        return SESSION_MAP;
     }
 
     public static boolean isUserOnline(final String userName) {
-        for (Map.Entry<String, Session> entry : sessionMap.entrySet()) {
+        for (Map.Entry<String, Session> entry : SESSION_MAP.entrySet()) {
             if (entry.getValue().getPlayerName().equals(userName)) {
                 return true;
             }
@@ -43,11 +43,11 @@ public class SessionManager {
     }
 
     public static void invalidate(final String id) {
-        sessionMap.remove(id);
+        SESSION_MAP.remove(id);
     }
 
     public static boolean isSessionValid(final String id) {
-        return sessionMap.get(id) == null;
+        return SESSION_MAP.get(id) == null;
     }
 
     public static Session create(final Player player) {
@@ -55,7 +55,7 @@ public class SessionManager {
                 player.getId(),
                 player.getName()
         );
-        sessionMap.put(session.getId(), session);
+        SESSION_MAP.put(session.getId(), session);
         LOGGER.info("create session: " + session);
         return session;
     }
@@ -67,26 +67,26 @@ public class SessionManager {
      * @return 用户id
      */
     public static Integer getPlayerIdBySessionId(final String sessionId) {
-        return sessionMap.get(sessionId).getPlayerId();
+        return SESSION_MAP.get(sessionId).getPlayerId();
     }
 }
 
 /**
  * 会话过期监视线程
  */
-class ExpireWatcher implements Runnable {
+class ExpiredSessionWatcher implements Runnable {
 
     /**
      * 日志记录器实例
      */
-    private static final Logger LOGGER = LoggerFactory.getLogger(ExpireWatcher.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(ExpiredSessionWatcher.class);
 
     /**
      * 无限循环，每隔EXPIRE_WATCHER_SLEEP_TIME_IN_MILLIS时间遍历session列表，将过期的会话删除
      */
     @Override
     public void run() {
-        LOGGER.info("ExpireWatcher running");
+        LOGGER.info("ExpiredSessionWatcher running");
         while (true) {
             long nowTime = Util.getTimeLong();
             //获取迭代器
@@ -104,7 +104,7 @@ class ExpireWatcher implements Runnable {
             }
             //睡眠
             try {
-                Thread.sleep(SessionConstant.EXPIRE_WATCHER_SLEEP_TIME_IN_MILLIS);
+                Thread.sleep(SessionConstant.EXPIRED_SESSION_WATCHER_SLEEP_TIME_IN_MILLIS);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }

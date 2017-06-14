@@ -5,15 +5,14 @@ import yz.doodlejump.core.Util;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 /**
  * 队伍类
  */
 public class Team {
-    private String id;
+    private Integer id;
     private List<Integer> players;
-    private Integer createUserId;
+    private Integer createPlayerId;
     private Boolean isOpen;
     private Long createTime;
     private Long closeTime;
@@ -21,10 +20,17 @@ public class Team {
     public Team() {
     }
 
-    public Team(Integer createUserId) {
-        this.createUserId = createUserId;
-        id = UUID.randomUUID().toString().replace("-", "");
+    public Team(Integer id, Integer createPlayerId) {
+        this.id = id;
+        this.createPlayerId = createPlayerId;
+        /*
+        初始化玩家列表
+         */
         this.players = new ArrayList<>(3);
+        /*
+        添加创建玩家到玩家列表
+         */
+        players.add(createPlayerId);
         this.isOpen = true;
         this.createTime = Util.getTimeLong();
     }
@@ -66,11 +72,11 @@ public class Team {
         }
     }
 
-    public String getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -82,12 +88,12 @@ public class Team {
         this.players = players;
     }
 
-    public Integer getCreateUserId() {
-        return createUserId;
+    public Integer getCreatePlayerId() {
+        return createPlayerId;
     }
 
-    public void setCreateUserId(Integer createUserId) {
-        this.createUserId = createUserId;
+    public void setCreatePlayerId(Integer createPlayerId) {
+        this.createPlayerId = createPlayerId;
     }
 
     public Boolean getOpen() {
@@ -117,9 +123,9 @@ public class Team {
     @Override
     public String toString() {
         return "Team{" +
-                "id='" + id + '\'' +
+                "id=" + id +
                 ", players=" + players +
-                ", createUserId=" + createUserId +
+                ", createPlayerId=" + createPlayerId +
                 ", isOpen=" + isOpen +
                 ", createTime=" + createTime +
                 ", closeTime=" + closeTime +

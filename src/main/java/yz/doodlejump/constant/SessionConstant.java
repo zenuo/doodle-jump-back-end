@@ -12,5 +12,5 @@ public class SessionConstant {
     /**
      * 会话监视器睡眠时间
      */
-    public static final long EXPIRE_WATCHER_SLEEP_TIME_IN_MILLIS = 1000 * 60 * 2;
+    public static final long EXPIRED_SESSION_WATCHER_SLEEP_TIME_IN_MILLIS = 1000 * 60 * 2;
 }
