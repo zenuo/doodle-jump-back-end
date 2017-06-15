@@ -53,8 +53,7 @@ public class Main {
             }
         }));
 
-        System.out.println(String.format("Application started. (HTTP/2 enabled!)\nTry out %sapplication.wadl\nStop the application using "
-                + "CTRL+C.", BASE_URI));
+        System.out.println(String.format("Application started. (HTTP/2 enabled!)\nTry out %sapplication.wadl\nStop the application using CTRL+C.", BASE_URI));
 
         Thread.currentThread().join();
     }

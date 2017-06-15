@@ -47,7 +47,7 @@ public class SessionManager {
     }
 
     public static boolean isSessionValid(final String id) {
-        return SESSION_MAP.get(id) == null;
+        return SESSION_MAP.get(id) != null;
     }
 
     public static Session create(final Player player) {
@@ -69,6 +69,15 @@ public class SessionManager {
      */
     public static Integer getPlayerIdBySessionId(final String sessionId) {
         return SESSION_MAP.get(sessionId).getPlayerId();
+    }
+
+    public static boolean isPlayerHoldSessionByName(final String name) {
+        for (Map.Entry<String, Session> entry : SESSION_MAP.entrySet()) {
+            if (entry.getValue().getPlayerName().equals(name)) {
+                return true;
+            }
+        }
+        return false;
     }
 }
 

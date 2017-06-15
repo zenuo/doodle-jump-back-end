@@ -20,6 +20,9 @@ public interface PlayerMapper {
     @Select("SELECT id, name, bio, email, record FROM PLAYER WHERE id=#{id} LIMIT 1;")
     Player getPlayerById(@Param("id") final int id);
 
+    @Select("SELECT id, name, bio, email, record FROM PLAYER WHERE name=#{name} LIMIT 1;")
+    Player getPlayerByName(@Param("name") final String name);
+
     @Select("SELECT IF(#{password}=(SELECT password FROM PLAYER WHERE name=#{name} LIMIT 1),0,1);")
     int checkNameAndPassword(@Param("name") final String name, @Param("password") final String password);
 

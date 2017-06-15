@@ -11,10 +11,20 @@ import yz.doodlejump.entity.mapper.PlayerMapper;
  * 玩家数据库访问类
  */
 public class PlayerDAO {
-    public static Player getById(int id) throws PersistenceException{
+    public static Player getById(final int id){
         try (SqlSession sqlSession = Data.getSqlSession()) {
             PlayerMapper playerMapper = sqlSession.getMapper(PlayerMapper.class);
             return playerMapper.getPlayerById(id);
+        } catch (PersistenceException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public static Player getByName(final String name) {
+        try (SqlSession sqlSession = Data.getSqlSession()) {
+            PlayerMapper playerMapper = sqlSession.getMapper(PlayerMapper.class);
+            return playerMapper.getPlayerByName(name);
         } catch (PersistenceException e) {
             e.printStackTrace();
         }
@@ -56,5 +66,15 @@ public class PlayerDAO {
             e.printStackTrace();
         }
         return 1;
+    }
+
+    public static boolean isExistByName(final String name) {
+        try (SqlSession sqlSession = Data.getSqlSession()) {
+            PlayerMapper playerMapper = sqlSession.getMapper(PlayerMapper.class);
+            return playerMapper.isExistByName(name) == 1;
+        } catch (PersistenceException e) {
+            e.printStackTrace();
+        }
+        return true;
     }
 }

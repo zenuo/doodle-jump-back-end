@@ -18,3 +18,58 @@ CREATE TABLE `PLAYER` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4
 ```
+
+## 2 API
+### 2.1 注册
+HTTP方法：POST
+
+URL：http://127.0.0.1:8080/auth/signin
+
+表单：
+```
+name:yz
+bio:你好，世界！
+email:yz@email.com
+password:123456
+```
+
+返回字符串：
+* 0：表示注册成功
+* 1：表示用户名已被注册
+
+### 2.2 登入
+HTTP方法：POST
+
+URL：http://127.0.0.1:8080/auth/signin
+
+表单：
+```
+name:yz
+password:123456
+```
+
+返回字符串：
+
+* 长度为32的字符串，例如“a809c2b3ed764d0792899edfeb34c0c0”，登录成功
+* 1：表示用户名于密码不匹配
+* 2：表示该用户已经登入
+
+### 2.3 获取玩家信息
+HTTP方法：GET
+
+URL：http://127.0.0.1:8080/auth/info?session={session}
+
+说明：“session”是登入成功后获得的字符串，起到标识用户的作用
+
+返回Json：
+```
+{
+    "id": 1,
+    "name": "yz",
+    "bio": "hello",
+    "email": "email",
+    "password": null,
+    "record": 0
+}
+```
+
