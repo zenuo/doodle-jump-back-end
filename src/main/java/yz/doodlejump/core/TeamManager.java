@@ -48,7 +48,7 @@ public final class TeamManager {
      * 删除队伍
      *
      * @param teamId 需要删除的队伍id
-     * @return 若删除成功，返回0；否则返回1；
+     * @return 若删除成功，返回0；否则返回1
      */
     public static int removeTeam(Integer teamId) {
         if (TEAM_MAP.remove(teamId) != null) {
@@ -56,6 +56,25 @@ public final class TeamManager {
         } else {
             return 1;
         }
+    }
+
+    /**
+     * 根据玩家id取得队伍成员id列表
+     * @param playerId 玩家id
+     * @return 队伍成员id列表
+     */
+    public static Integer[] getPlayersByPlayerId(int playerId) {
+        Iterator<Map.Entry<Integer, Team>> iterator =
+                TeamManager.getTeamMap().entrySet().iterator();
+        while (iterator.hasNext()) {
+            Team team = iterator.next().getValue();
+            for (int i = 0; i < team.getPlayers().size(); i++) {
+                if (team.getPlayers().get(i) == playerId) {
+                    return (Integer[]) team.getPlayers().toArray();
+                }
+            }
+        }
+        return null;
     }
 }
 

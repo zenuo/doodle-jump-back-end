@@ -36,7 +36,7 @@ public class Main {
 
         Data.init();
 
-        final URI BASE_URI = URI.create("http://" + args[0] + ":" + args[1] + "/");
+        final URI BASE_URI = URI.create(String.format("http://%s:%s/", args[0], args[1]));
 
         ResourceConfig resourceConfig = new RESTConfiguration();
 

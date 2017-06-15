@@ -21,15 +21,18 @@ public class Player {
     @JsonProperty
     private String password;
 
+    @JsonProperty
+    private Integer record;
+
     public Player() {
     }
 
-    public Player(Integer id, String name, String bio, String email, String password) {
-        this.id = id;
+    public Player(String name, String bio, String email, String password) {
         this.name = name;
         this.bio = bio;
         this.email = email;
         this.password = password;
+        this.record = 0;
     }
 
     public Integer getId() {
@@ -72,6 +75,14 @@ public class Player {
         this.password = password;
     }
 
+    public Integer getRecord() {
+        return record;
+    }
+
+    public void setRecord(Integer record) {
+        this.record = record;
+    }
+
     @Override
     public String toString() {
         return "Player{" +
@@ -80,6 +91,7 @@ public class Player {
                 ", bio='" + bio + '\'' +
                 ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
+                ", record=" + record +
                 '}';
     }
 }

@@ -35,7 +35,7 @@ public class Data {
             TransactionFactory transactionFactory = new JdbcTransactionFactory();
             Environment MariaDBEnvironment = new Environment("mariadb", transactionFactory, dataSource);
             Configuration configuration = new Configuration(MariaDBEnvironment);
-            configuration.addMappers("yz.gpslog.entity.mapper");
+            configuration.addMappers("yz.doodlejump.entity.mapper");
             sqlSessionFactory = new SqlSessionFactoryBuilder().build(configuration);
             LOGGER.info("Build SqlSessionFactory succeed");
         } catch (Exception e) {
@@ -62,7 +62,8 @@ public class Data {
         BasicDataSource mariadb = new BasicDataSource();
         mariadb.setDriverClassName("org.mariadb.jdbc.Driver");
         //服务器
-        mariadb.setUrl("jdbc:mariadb://localhost:3306/DOODLEJUMP");
+        //mariadb.setUrl("jdbc:mariadb://localhost:3306/DOODLEJUMP");
+        mariadb.setUrl("jdbc:mariadb://172.17.0.2:3306/DOODLEJUMP");
         //MariaDB账户密码
         mariadb.setUsername("yuanzhen");
         mariadb.setPassword("123456");

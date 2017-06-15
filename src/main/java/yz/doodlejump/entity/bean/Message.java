@@ -1,15 +1,24 @@
 package yz.doodlejump.entity.bean;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 /**
  * 消息类
  */
 public final class Message {
+    @JsonProperty
     private Long id;
+    @JsonProperty
     private Byte scope;
+    @JsonProperty
     private Integer source;
+    @JsonProperty
     private Integer target;
+    @JsonProperty
     private Long createTime;
+    @JsonProperty
     private Long sendTime;
+    @JsonProperty
     private String content;
 
     public Message() {

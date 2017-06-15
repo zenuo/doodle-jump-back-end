@@ -26,7 +26,7 @@ public class SessionManager {
     }
 
     public static void init() {
-        LOGGER.info("SessionManager initialized");
+        LOGGER.info("SessionManager initialized.");
     }
 
     static Map<String, Session> getSessionMap() {
@@ -53,7 +53,8 @@ public class SessionManager {
     public static Session create(final Player player) {
         Session session = new Session(
                 player.getId(),
-                player.getName()
+                player.getName(),
+                player.getRecord()
         );
         SESSION_MAP.put(session.getId(), session);
         LOGGER.info("create session: " + session);
