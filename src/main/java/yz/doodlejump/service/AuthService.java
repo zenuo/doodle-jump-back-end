@@ -12,7 +12,7 @@ import javax.ws.rs.core.MediaType;
  * 认证服务
  */
 @Path("auth")
-public class Auth {
+public class AuthService {
 
     @Path("hello")
     @GET

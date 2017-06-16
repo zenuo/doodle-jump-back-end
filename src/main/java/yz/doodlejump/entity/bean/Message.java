@@ -90,7 +90,7 @@ public final class Message {
 
     @Override
     public String toString() {
-        return "Message{" +
+        return "MessageService{" +
                 "id=" + id +
                 ", scope=" + scope +
                 ", source=" + source +

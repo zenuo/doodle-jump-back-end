@@ -35,7 +35,7 @@ public class MessageManager {
             //私信
             MESSAGE_MAP.put(message.getTarget(), message);
         } else if (message.getScope().equals(MessageConstant.SCOPE_OF_TEAM_MESSAGE)) {
-            //团队信息
+            //群发
             Integer[] players = TeamManager.getPlayersByPlayerId(message.getSource());
             if (players != null) {
                 for (Integer i : players) {
@@ -45,17 +45,23 @@ public class MessageManager {
         }
     }
 
+    /**
+     * 接收信息
+     * @param target 接收人
+     * @return Message数组
+     */
     public static Message[] get(Integer target) {
         Iterator<Map.Entry<Integer, Message>> iterator = MESSAGE_MAP.entrySet().iterator();
         List<Message> list = new ArrayList<>();
         while (iterator.hasNext()) {
             Message message = iterator.next().getValue();
             if (message.getTarget().equals(target)) {
+                message.setSendTime(System.currentTimeMillis());
                 list.add(message);
                 iterator.remove();
             }
         }
-        return (Message[]) list.toArray();
+        return list.toArray(new Message[list.size()]);
     }
 
 }

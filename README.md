@@ -73,3 +73,15 @@ URL：http://127.0.0.1:8080/auth/info?session={session}
 }
 ```
 
+### 2.4 发送信息
+HTTP方法：POST
+
+URL:http://127.0.0.1:8080/message/send
+
+报文：
+```
+{"id":null,"scope":0,"source":1,"target":1,"createTime":1497611475646,"sendTime":null,"content":"Hello World!"}
+```
+
+返回字符串：
+* 0：表示发送成功
