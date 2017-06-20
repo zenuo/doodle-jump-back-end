@@ -14,13 +14,14 @@ public interface PlayerMapper {
             @Result(property = "bio", column = "bio", javaType = String.class, jdbcType = JdbcType.CHAR),
             @Result(property = "email", column = "email", javaType = String.class, jdbcType = JdbcType.CHAR),
             @Result(property = "password", column = "password", javaType = String.class, jdbcType = JdbcType.CHAR),
-            @Result(property = "record", column = "record", javaType = Integer.class, jdbcType = JdbcType.INTEGER)
+            @Result(property = "record", column = "record", javaType = Integer.class, jdbcType = JdbcType.INTEGER),
+            @Result(property = "coin", column = "coin", javaType = Integer.class, jdbcType = JdbcType.INTEGER)
     })
 
-    @Select("SELECT id, name, bio, email, record FROM PLAYER WHERE id=#{id} LIMIT 1;")
+    @Select("SELECT id, name, bio, email, record, coin FROM PLAYER WHERE id=#{id} LIMIT 1;")
     Player getPlayerById(@Param("id") final int id);
 
-    @Select("SELECT id, name, bio, email, record FROM PLAYER WHERE name=#{name} LIMIT 1;")
+    @Select("SELECT id, name, bio, email, record, coin FROM PLAYER WHERE name=#{name} LIMIT 1;")
     Player getPlayerByName(@Param("name") final String name);
 
     @Select("SELECT IF(#{password}=(SELECT password FROM PLAYER WHERE name=#{name} LIMIT 1),0,1);")
@@ -29,9 +30,12 @@ public interface PlayerMapper {
     @Select("SELECT COUNT(*) FROM PLAYER WHERE name=#{name} LIMIT 1;")
     int isExistByName(@Param("name") final String name);
 
-    @Insert("INSERT INTO PLAYER(id, name, bio, email, password, record) VALUES(#{id}, #{name}, #{bio}, #{email}, #{password}, #{record});")
+    @Insert("INSERT INTO PLAYER(id, name, bio, email, password, record, coin) VALUES(#{id}, #{name}, #{bio}, #{email}, #{password}, #{record}, #{coin});")
     void insert(final Player player);
 
     @Update("UPDATE PLAYER SET record=#{record} WHERE id=#{id};")
     void updateRecord(@Param("id") final int id, @Param("record") final int record);
+
+    @Update("UPDATE PLAYER SET coin=#{coin} WHERE id=#{id};")
+    void updateCoin(@Param("id") final int id, @Param("coin") final int coin);
 }

@@ -1,20 +1,33 @@
 package yz.doodlejump.entity.bean;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import yz.doodlejump.constant.TeamConstant;
 import yz.doodlejump.core.Util;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * 队伍类
  */
-public class Team {
+public final class Team implements Serializable {
+    @JsonProperty
     private Integer id;
+
+    @JsonProperty
     private List<Integer> players;
+
+    @JsonProperty
     private Integer createPlayerId;
+
+    @JsonProperty
     private Boolean isOpen;
+
+    @JsonProperty
     private Long createTime;
+
+    @JsonProperty
     private Long closeTime;
 
     public Team() {
@@ -32,7 +45,7 @@ public class Team {
          */
         players.add(createPlayerId);
         this.isOpen = true;
-        this.createTime = Util.getTimeLong();
+        this.createTime = System.currentTimeMillis();
     }
 
     /**
@@ -130,5 +143,32 @@ public class Team {
                 ", createTime=" + createTime +
                 ", closeTime=" + closeTime +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Team team = (Team) o;
+
+        if (id != null ? !id.equals(team.id) : team.id != null) return false;
+        if (players != null ? !players.equals(team.players) : team.players != null) return false;
+        if (createPlayerId != null ? !createPlayerId.equals(team.createPlayerId) : team.createPlayerId != null)
+            return false;
+        if (isOpen != null ? !isOpen.equals(team.isOpen) : team.isOpen != null) return false;
+        if (createTime != null ? !createTime.equals(team.createTime) : team.createTime != null) return false;
+        return closeTime != null ? closeTime.equals(team.closeTime) : team.closeTime == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = id != null ? id.hashCode() : 0;
+        result = 31 * result + (players != null ? players.hashCode() : 0);
+        result = 31 * result + (createPlayerId != null ? createPlayerId.hashCode() : 0);
+        result = 31 * result + (isOpen != null ? isOpen.hashCode() : 0);
+        result = 31 * result + (createTime != null ? createTime.hashCode() : 0);
+        result = 31 * result + (closeTime != null ? closeTime.hashCode() : 0);
+        return result;
     }
 }

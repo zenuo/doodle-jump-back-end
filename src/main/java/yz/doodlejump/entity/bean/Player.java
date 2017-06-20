@@ -2,10 +2,12 @@ package yz.doodlejump.entity.bean;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import java.io.Serializable;
+
 /**
  * 用户
  */
-public class Player {
+public final class Player implements Serializable {
     @JsonProperty
     private Integer id;
 
@@ -24,6 +26,9 @@ public class Player {
     @JsonProperty
     private Integer record;
 
+    @JsonProperty
+    private Integer coin;
+
     public Player() {
     }
 
@@ -32,7 +37,6 @@ public class Player {
         this.bio = bio;
         this.email = email;
         this.password = password;
-        this.record = 0;
     }
 
     public Integer getId() {
@@ -83,6 +87,14 @@ public class Player {
         this.record = record;
     }
 
+    public Integer getCoin() {
+        return coin;
+    }
+
+    public void setCoin(Integer coin) {
+        this.coin = coin;
+    }
+
     @Override
     public String toString() {
         return "Player{" +
@@ -92,6 +104,7 @@ public class Player {
                 ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
                 ", record=" + record +
+                ", coin=" + coin +
                 '}';
     }
 }

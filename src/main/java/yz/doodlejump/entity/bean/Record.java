@@ -1,9 +1,11 @@
 package yz.doodlejump.entity.bean;
 
+import java.io.Serializable;
+
 /**
  * 游戏结果
  */
-public class Record {
+public final class Record implements Serializable {
     private Integer id;
     private Integer player;
     private Integer mark;

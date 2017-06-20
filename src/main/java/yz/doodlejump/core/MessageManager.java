@@ -33,13 +33,18 @@ public class MessageManager {
     public static void send(Message message) {
         if (message.getScope().equals(MessageConstant.SCOPE_OF_PRIVATE_MESSAGE)) {
             //私信
-            MESSAGE_MAP.put(message.getTarget(), message);
+            message.setCreateTime(System.currentTimeMillis());
+            message.setSendTime(System.currentTimeMillis());
+            MESSAGE_MAP.put(message.hashCode(), message);
         } else if (message.getScope().equals(MessageConstant.SCOPE_OF_TEAM_MESSAGE)) {
             //群发
-            Integer[] players = TeamManager.getPlayersByPlayerId(message.getSource());
-            if (players != null) {
+            Integer[] players = TeamManager.getPlayersByTeamId(message.getSource());
+            if (players.length != 0) {
                 for (Integer i : players) {
-                    MESSAGE_MAP.put(i, message);
+                    message.setTarget(i);
+                    message.setCreateTime(System.currentTimeMillis());
+                    message.setSendTime(System.currentTimeMillis());
+                    MESSAGE_MAP.put(message.hashCode(), message);
                 }
             }
         }

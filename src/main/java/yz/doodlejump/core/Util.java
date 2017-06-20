@@ -41,12 +41,4 @@ public class Util {
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern(UtilConstant.TIME_FORMAT);
         return time.format(dateTimeFormatter);
     }
-
-    /**
-     * 返回当前UNIX时间戳
-     * @return 当前UNIX时间戳
-     */
-    public static long getTimeLong(){
-        return System.currentTimeMillis() / 1000;
-    }
 }

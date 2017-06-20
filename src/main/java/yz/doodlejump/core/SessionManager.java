@@ -43,6 +43,7 @@ public class SessionManager {
     }
 
     public static void invalidate(final String id) {
+        LOGGER.info("invalidate session: " + id);
         SESSION_MAP.remove(id);
     }
 
@@ -79,6 +80,16 @@ public class SessionManager {
         }
         return false;
     }
+
+    /**
+     * 获取会话对象
+     *
+     * @param sessionId 会话id
+     * @return 会话对象
+     */
+    public static Session getSession(final String sessionId) {
+        return SESSION_MAP.get(sessionId);
+    }
 }
 
 /**
@@ -98,7 +109,7 @@ class ExpiredSessionWatcher implements Runnable {
     public void run() {
         LOGGER.info("ExpiredSessionWatcher running");
         while (true) {
-            long nowTime = Util.getTimeLong();
+            long nowTime = System.currentTimeMillis();
             //获取迭代器
             Iterator<Map.Entry<String, Session>> iterator =
                     SessionManager.getSessionMap().entrySet().iterator();

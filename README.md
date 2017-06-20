@@ -15,8 +15,9 @@ CREATE TABLE `PLAYER` (
   `email` char(50) NOT NULL,
   `password` char(96) NOT NULL,
   `record` int(10) unsigned DEFAULT '0',
+  `coin` int(10) unsigned DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4;
 ```
 
 ## 2 API

@@ -73,7 +73,9 @@ public class AuthService {
         if (SessionManager.isSessionValid(sessionId)) {
             //合法
             int userId = SessionManager.getPlayerIdBySessionId(sessionId);
-            return PlayerDAO.getById(userId);
+            Player player = PlayerDAO.getById(userId);
+            player.setPassword("");
+            return player;
         } else {
             //不合法
             return null;

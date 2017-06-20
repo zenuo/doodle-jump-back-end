@@ -7,7 +7,7 @@ import java.util.UUID;
 /**
  * 会话对象
  */
-public class Session {
+public final class Session {
 
     private String id;
 
@@ -21,6 +21,8 @@ public class Session {
 
     private long lastActiveTime;
 
+    private int teamId;
+
     public Session() {
     }
 
@@ -29,8 +31,9 @@ public class Session {
         this.playerName = playerName;
         this.playerRecord = playerRecord;
         this.id = UUID.randomUUID().toString().replace("-", "");
-        this.createTime = Util.getTimeLong();
-        this.lastActiveTime = Util.getTimeLong();
+        this.createTime = System.currentTimeMillis();
+        this.lastActiveTime = System.currentTimeMillis();
+        this.teamId = -1;
     }
 
     public String getId() {
@@ -81,14 +84,24 @@ public class Session {
         this.lastActiveTime = lastActiveTime;
     }
 
+    public int getTeamId() {
+        return teamId;
+    }
+
+    public void setTeamId(int teamId) {
+        this.teamId = teamId;
+    }
+
     @Override
     public String toString() {
         return "Session{" +
                 "id='" + id + '\'' +
                 ", playerId=" + playerId +
                 ", playerName='" + playerName + '\'' +
+                ", playerRecord=" + playerRecord +
                 ", createTime=" + createTime +
                 ", lastActiveTime=" + lastActiveTime +
+                ", teamId=" + teamId +
                 '}';
     }
 }
