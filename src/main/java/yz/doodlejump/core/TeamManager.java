@@ -79,13 +79,13 @@ public final class TeamManager {
      * @return 所有队伍列表
      */
     public static Team[] listTeam() {
-        Team[] teams = new Team[TEAM_MAP.size()];
-        int i = 0;
+        List<Team> list = new ArrayList<>();
         for (Map.Entry<Integer, Team> entry : TEAM_MAP.entrySet()) {
-            teams[i] = entry.getValue();
-            i++;
+            if (entry.getValue().getOpen()){
+                list.add(entry.getValue());
+            }
         }
-        return teams;
+        return list.toArray(new Team[list.size()]);
     }
 
     /**
