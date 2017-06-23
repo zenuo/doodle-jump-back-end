@@ -21,7 +21,7 @@ public class SessionManager {
             Collections.synchronizedMap(new LinkedHashMap<>());
 
     private SessionManager() {
-        Thread expiredSessionWatcher = new Thread(new ExpiredSessionWatcher());
+        Thread expiredSessionWatcher = new Thread(new SessionWatcher());
         expiredSessionWatcher.start();
     }
 
@@ -47,7 +47,7 @@ public class SessionManager {
         SESSION_MAP.remove(id);
     }
 
-    public static boolean isSessionValid(final String id) {
+    public static boolean isValid(final String id) {
         return SESSION_MAP.get(id) != null;
     }
 
@@ -95,19 +95,19 @@ public class SessionManager {
 /**
  * 会话过期监视线程
  */
-class ExpiredSessionWatcher implements Runnable {
+class SessionWatcher implements Runnable {
 
     /**
      * 日志记录器实例
      */
-    private static final Logger LOGGER = LoggerFactory.getLogger(ExpiredSessionWatcher.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(SessionWatcher.class);
 
     /**
      * 无限循环，每隔EXPIRE_WATCHER_SLEEP_TIME_IN_MILLIS时间遍历session列表，将过期的会话删除
      */
     @Override
     public void run() {
-        LOGGER.info("ExpiredSessionWatcher running");
+        LOGGER.info("SessionWatcher running");
         while (true) {
             long nowTime = System.currentTimeMillis();
             //获取迭代器

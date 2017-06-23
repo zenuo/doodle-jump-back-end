@@ -2,7 +2,6 @@ package yz.doodlejump.entity.bean;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import yz.doodlejump.constant.TeamConstant;
-import yz.doodlejump.core.Util;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -19,37 +18,49 @@ public final class Team implements Serializable {
     private List<Integer> players;
 
     @JsonProperty
+    private List<Integer> avators;
+
+    @JsonProperty
+    private List<Integer> coins;
+
+    @JsonProperty
     private Integer createPlayerId;
 
     @JsonProperty
-    private Boolean isOpen;
+    private Boolean open;
 
     @JsonProperty
     private Long createTime;
 
     @JsonProperty
-    private Long closeTime;
+    private Long lastActiveTime;
 
     public Team() {
     }
 
-    public Team(Integer id, Integer createPlayerId) {
+    public Team(int id, int createPlayerId, int avator, int coin) {
         this.id = id;
         this.createPlayerId = createPlayerId;
         /*
-        初始化玩家列表
+        初始化列表
          */
         this.players = new ArrayList<>(3);
+        this.avators = new ArrayList<>(3);
+        this.coins = new ArrayList<>(3);
         /*
         添加创建玩家到玩家列表
          */
         players.add(createPlayerId);
-        this.isOpen = true;
+        avators.add(avator);
+        coins.add(coin);
+        this.open = true;
         this.createTime = System.currentTimeMillis();
+        this.lastActiveTime = System.currentTimeMillis();
     }
 
     /**
      * 加入队伍
+     *
      * @param userId 需要加入队伍的玩家id
      * @return 若加入成功，返回0；否则返回1
      */
@@ -57,13 +68,13 @@ public final class Team implements Serializable {
         /*
         判断队伍是否开放
          */
-        if (isOpen) {
+        if (open) {
             players.add(userId);
             /*
             玩家人数达到最大值时关闭队伍
              */
             if (players.size() == TeamConstant.MAX_NUMBER_OF_PLAYER_IN_A_TEAM) {
-                this.isOpen = false;
+                this.open = false;
             }
             return 0;
         } else {
@@ -73,12 +84,27 @@ public final class Team implements Serializable {
 
     /**
      * 退出队伍
+     *
      * @param userId 希望退出队伍的玩家id
      * @return 若加入成功，返回0；否则返回1
      */
     public int exit(Integer userId) {
         if (players.remove(userId)) {
-            this.isOpen = true;
+            this.open = true;
+            return 0;
+        } else {
+            return 1;
+        }
+    }
+
+    /**
+     * 锁定队伍
+     *
+     * @return 若锁定成功，返回0；否则返回1
+     */
+    public int lock() {
+        if (open) {
+            open = false;
             return 0;
         } else {
             return 1;
@@ -101,6 +127,22 @@ public final class Team implements Serializable {
         this.players = players;
     }
 
+    public List<Integer> getAvators() {
+        return avators;
+    }
+
+    public void setAvators(List<Integer> avators) {
+        this.avators = avators;
+    }
+
+    public List<Integer> getCoins() {
+        return coins;
+    }
+
+    public void setCoins(List<Integer> coins) {
+        this.coins = coins;
+    }
+
     public Integer getCreatePlayerId() {
         return createPlayerId;
     }
@@ -110,11 +152,11 @@ public final class Team implements Serializable {
     }
 
     public Boolean getOpen() {
-        return isOpen;
+        return open;
     }
 
     public void setOpen(Boolean open) {
-        isOpen = open;
+        this.open = open;
     }
 
     public Long getCreateTime() {
@@ -125,12 +167,12 @@ public final class Team implements Serializable {
         this.createTime = createTime;
     }
 
-    public Long getCloseTime() {
-        return closeTime;
+    public Long getLastActiveTime() {
+        return lastActiveTime;
     }
 
-    public void setCloseTime(Long closeTime) {
-        this.closeTime = closeTime;
+    public void setLastActiveTime(Long lastActiveTime) {
+        this.lastActiveTime = lastActiveTime;
     }
 
     @Override
@@ -139,9 +181,9 @@ public final class Team implements Serializable {
                 "id=" + id +
                 ", players=" + players +
                 ", createPlayerId=" + createPlayerId +
-                ", isOpen=" + isOpen +
+                ", open=" + open +
                 ", createTime=" + createTime +
-                ", closeTime=" + closeTime +
+                ", lastActiveTime=" + lastActiveTime +
                 '}';
     }
 
@@ -156,9 +198,9 @@ public final class Team implements Serializable {
         if (players != null ? !players.equals(team.players) : team.players != null) return false;
         if (createPlayerId != null ? !createPlayerId.equals(team.createPlayerId) : team.createPlayerId != null)
             return false;
-        if (isOpen != null ? !isOpen.equals(team.isOpen) : team.isOpen != null) return false;
+        if (open != null ? !open.equals(team.open) : team.open != null) return false;
         if (createTime != null ? !createTime.equals(team.createTime) : team.createTime != null) return false;
-        return closeTime != null ? closeTime.equals(team.closeTime) : team.closeTime == null;
+        return lastActiveTime != null ? lastActiveTime.equals(team.lastActiveTime) : team.lastActiveTime == null;
     }
 
     @Override
@@ -166,9 +208,9 @@ public final class Team implements Serializable {
         int result = id != null ? id.hashCode() : 0;
         result = 31 * result + (players != null ? players.hashCode() : 0);
         result = 31 * result + (createPlayerId != null ? createPlayerId.hashCode() : 0);
-        result = 31 * result + (isOpen != null ? isOpen.hashCode() : 0);
+        result = 31 * result + (open != null ? open.hashCode() : 0);
         result = 31 * result + (createTime != null ? createTime.hashCode() : 0);
-        result = 31 * result + (closeTime != null ? closeTime.hashCode() : 0);
+        result = 31 * result + (lastActiveTime != null ? lastActiveTime.hashCode() : 0);
         return result;
     }
 }
