@@ -43,7 +43,7 @@ public class SessionManager {
     }
 
     public static void invalidate(final String id) {
-        LOGGER.info("invalidate session: " + id);
+        LOGGER.info("invalidate: " + id);
         SESSION_MAP.remove(id);
     }
 
@@ -58,7 +58,7 @@ public class SessionManager {
                 player.getRecord()
         );
         SESSION_MAP.put(session.getId(), session);
-        LOGGER.info("create session: " + session);
+        LOGGER.info("create: " + session);
         return session;
     }
 
@@ -93,7 +93,7 @@ public class SessionManager {
 }
 
 /**
- * 会话过期监视线程
+ * 会话监视线程
  */
 class SessionWatcher implements Runnable {
 

@@ -35,7 +35,8 @@ public class PlayerDAO {
         try (SqlSession sqlSession = Data.getSqlSession()) {
             PlayerMapper playerMapper = sqlSession.getMapper(PlayerMapper.class);
             String hashedString = Util.hash(password);
-            return playerMapper.checkNameAndPassword(name, hashedString) == 1;
+            //这里写错成“ == 1”，应该是” == 0“
+            return playerMapper.checkNameAndPassword(name, hashedString) == 0;
         } catch (PersistenceException e) {
             e.printStackTrace();
         }

@@ -62,11 +62,10 @@ public class Data {
         BasicDataSource mariadb = new BasicDataSource();
         mariadb.setDriverClassName("org.mariadb.jdbc.Driver");
         //服务器
-        //mariadb.setUrl("jdbc:mariadb://localhost:3306/DOODLEJUMP");
-        mariadb.setUrl("jdbc:mariadb://172.17.0.2:3306/DOODLEJUMP");
+        mariadb.setUrl("jdbc:mariadb://IP:PORT/DB");
         //MariaDB账户密码
-        mariadb.setUsername("yuanzhen");
-        mariadb.setPassword("123456");
+        mariadb.setUsername("user");
+        mariadb.setPassword("passwd");
         return mariadb;
     }
 }

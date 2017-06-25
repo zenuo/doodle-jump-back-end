@@ -64,12 +64,14 @@ public final class Team implements Serializable {
      * @param userId 需要加入队伍的玩家id
      * @return 若加入成功，返回0；否则返回1
      */
-    public int join(Integer userId) {
+    public int join(Integer userId, Integer avator, Integer coin) {
         /*
         判断队伍是否开放
          */
         if (open) {
             players.add(userId);
+            avators.add(avator);
+            coins.add(coin);
             /*
             玩家人数达到最大值时关闭队伍
              */

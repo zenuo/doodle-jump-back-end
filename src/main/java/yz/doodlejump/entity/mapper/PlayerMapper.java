@@ -30,7 +30,7 @@ public interface PlayerMapper {
     @Select("SELECT COUNT(*) FROM PLAYER WHERE name=#{name} LIMIT 1;")
     int isExistByName(@Param("name") final String name);
 
-    @Insert("INSERT INTO PLAYER(id, name, bio, email, password, record, coin) VALUES(#{id}, #{name}, #{bio}, #{email}, #{password}, #{record}, #{coin});")
+    @Insert("INSERT INTO PLAYER(id, name, bio, email, password) VALUES(#{id}, #{name}, #{bio}, #{email}, #{password});")
     void insert(final Player player);
 
     @Update("UPDATE PLAYER SET record=#{record} WHERE id=#{id};")

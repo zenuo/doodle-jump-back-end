@@ -83,7 +83,9 @@ public class TeamService {
                        @QueryParam("coin") final int coin) {
         if (SessionManager.isValid(sessionId)) {
             LOGGER.info("create " + sessionId);
-            return TeamManager.create(SessionManager.getPlayerIdBySessionId(sessionId), avator, coin);
+            Team team = TeamManager.create(SessionManager.getPlayerIdBySessionId(sessionId), avator, coin);
+            SessionManager.getSession(sessionId).setTeamId(team.getId());
+            return team;
         } else {
             return null;
         }
@@ -95,16 +97,13 @@ public class TeamService {
      * @param playerStatus 玩家状态对象
      * @return 状态
      */
-    @Path("push-{session}")
+    @Path("push-{session:\\w+}")
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.TEXT_PLAIN)
     public int push(@PathParam("session") final String sessionId,
                     final PlayerStatus playerStatus) {
         if (SessionManager.isValid(sessionId)) {
-            LOGGER.info("push " + sessionId);
-            int teamId = SessionManager.getSession(sessionId).getTeamId();
-            TeamManager.updateActiveTime(teamId);
             TeamManager.putPlayerStatus(playerStatus);
             return 0;
         } else {
@@ -123,9 +122,9 @@ public class TeamService {
     @Produces(MediaType.APPLICATION_JSON)
     public PlayerStatus[] pull(@QueryParam("session") final String sessionId) {
         if (SessionManager.isValid(sessionId)) {
-            LOGGER.info("pull " + sessionId);
-            int teamId = SessionManager.getSession(sessionId).getTeamId();
-            TeamManager.updateActiveTime(teamId);
+            int teamId = SessionManager
+                    .getSession(sessionId)
+                    .getTeamId();
             return TeamManager.getPlayerStatusByTeamId(
                     teamId,
                     SessionManager.getPlayerIdBySessionId(sessionId)
@@ -146,12 +145,20 @@ public class TeamService {
     @GET
     @Produces(MediaType.TEXT_PLAIN)
     public int join(@QueryParam("session") final String sessionId,
-                    @QueryParam("teamId") final int teamId) {
+                    @QueryParam("teamId") final int teamId,
+                    @QueryParam("avator") final int avator,
+                    @QueryParam("coin") final int coin
+    ) {
         if (SessionManager.isValid(sessionId)) {
             LOGGER.info("join " + teamId + " ,session: " + sessionId);
             TeamManager.updateActiveTime(teamId);
             int playerId = SessionManager.getPlayerIdBySessionId(sessionId);
-            return TeamManager.get(teamId).join(playerId);
+            if (TeamManager.get(teamId).join(playerId, avator, coin) == 0) {
+                SessionManager.getSession(sessionId).setTeamId(teamId);
+                return 0;
+            } else {
+                return 1;
+            }
         } else {
             return 1;
         }

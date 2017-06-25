@@ -27,18 +27,18 @@ public final class TeamManager {
      * 所有团队Map
      */
     private static final Map<Integer, Team> TEAM_MAP =
-            Collections.synchronizedMap(new LinkedHashMap<>());
+            new LinkedHashMap<>();
 
     /**
      * 玩家状态Map
      */
     private static final Map<Integer, PlayerStatus> PLAYER_STATUS_MAP =
-            Collections.synchronizedMap(new LinkedHashMap<>());
+            new LinkedHashMap<>();
 
     /**
      * 团队地图
      */
-    private static final Map<Integer, List<String>> TEAM_MAP_MAP = Collections.synchronizedMap(new LinkedHashMap<>());
+    private static final Map<Integer, List<String>> TEAM_MAP_MAP = new LinkedHashMap<>();
 
     /**
      * 团队计数
@@ -76,6 +76,7 @@ public final class TeamManager {
 
     /**
      * 返回团队地图Map
+     *
      * @return 团队地图Map
      */
     static Map<Integer, List<String>> getTeamMapMap() {
@@ -177,7 +178,7 @@ public final class TeamManager {
      */
     public static Integer[] getPlayersByTeamIdExcept(final Integer teamId, final int ExceptPlayerId) {
         //完整成员id列表/
-        List<Integer> list = TEAM_MAP.get(teamId).getPlayers();
+        List<Integer> list = new ArrayList<>(TEAM_MAP.get(teamId).getPlayers());
         list.remove(new Integer(ExceptPlayerId));
         return list.toArray(new Integer[list.size()]);
     }
@@ -219,10 +220,18 @@ public final class TeamManager {
 
     /**
      * 更新活跃时间
+     *
      * @param teamId 队伍id
      */
     public static void updateActiveTime(final int teamId) {
-        TEAM_MAP.get(teamId).setLastActiveTime(System.currentTimeMillis());
+        try {
+            TEAM_MAP.get(teamId)
+                    .setLastActiveTime(
+                    System.currentTimeMillis()
+            );
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -233,32 +242,37 @@ public final class TeamManager {
      * @return 地图字符串
      */
     public static String getMap(final int teamId, final int page) {
-        List<String> list = TEAM_MAP_MAP.get(teamId);
-        StringBuilder sb = new StringBuilder();
-        if (list.size() < page * TeamConstant.PLATFORM_NUMBER_PER_PAGE) {
-            //列表中地面数量小于请求的数量
-            while (list.size() < page * TeamConstant.PLATFORM_NUMBER_PER_PAGE){
-                String platform = String.format(
-                        TeamConstant.FORMAT_OF_PLATFORM,
-                        getPlatformType(),
-                        getPropType(),
-                        getXPosition()
+        try {
+            List<String> list = TEAM_MAP_MAP.get(teamId);
+            StringBuilder sb = new StringBuilder();
+            if (list.size() < page * TeamConstant.PLATFORM_NUMBER_PER_PAGE) {
+                //列表中地面数量小于请求的数量
+                while (list.size() < page * TeamConstant.PLATFORM_NUMBER_PER_PAGE) {
+                    String platform = String.format(
+                            TeamConstant.FORMAT_OF_PLATFORM,
+                            getPlatformType(),
+                            getPropType(),
+                            getXPosition()
+                    );
+                    sb.append(platform).append(TeamConstant.DIVIDER_BETWEEN_EACH_PLATFORM);
+                    list.add(platform);
+                }
+            } else {
+                //列表中的地面数量不小于请求的数量
+                List<String> sublist = list.subList(
+                        (page - 1) * TeamConstant.PLATFORM_NUMBER_PER_PAGE,
+                        page * TeamConstant.PLATFORM_NUMBER_PER_PAGE - 1
                 );
-                sb.append(platform).append(TeamConstant.DIVIDER_BETWEEN_EACH_PLATFORM);
-                list.add(platform);
+                for (String s : sublist) {
+                    sb.append(s).append(TeamConstant.DIVIDER_BETWEEN_EACH_PLATFORM);
+                }
             }
-        } else {
-            //列表中的地面数量不小于请求的数量
-            List<String> sublist = list.subList(
-                    (page - 1) * TeamConstant.PLATFORM_NUMBER_PER_PAGE,
-                    page * TeamConstant.PLATFORM_NUMBER_PER_PAGE -1
-            );
-            for (String s : sublist) {
-                sb.append(s).append(TeamConstant.DIVIDER_BETWEEN_EACH_PLATFORM);
-            }
+            //返回字符串
+            return sb.toString();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        //返回字符串
-        return sb.toString();
+        return null;
     }
 
     /**
@@ -268,17 +282,18 @@ public final class TeamManager {
      */
     private static int getPlatformType() {
         float randomValue = RANDOM.nextFloat();
-        if (randomValue < 0.5F) {
-            return 1;
-        } else if (randomValue >= 0.5F && randomValue < 0.8F) {
+        if (randomValue < 0.1F) {
             return 2;
-        } else {
+        } else if (randomValue >= 0.1F && randomValue < 0.2F) {
             return 3;
+        } else {
+            return 1;
         }
     }
 
     /**
      * 地图生成：获取道具/怪物类型
+     *
      * @return 返回道具/怪物类型
      */
     private static int getPropType() {
@@ -293,11 +308,11 @@ public final class TeamManager {
             return 4;
         } else if (randomValue >= 0.14F && randomValue < 0.16F) {
             return 5;
-        } else if (randomValue >= 0.16F && randomValue < 0.17F) {
+        } else if (randomValue >= 0.16F && randomValue < 0.163F) {
             return 6;
-        } else if (randomValue >= 0.18F && randomValue < 0.19F) {
+        } else if (randomValue >= 0.163F && randomValue < 0.166F) {
             return 7;
-        } else if (randomValue >= 0.19F && randomValue < 0.2F) {
+        } else if (randomValue >= 0.166F && randomValue < 0.169F) {
             return 8;
         } else {
             return 0;
@@ -306,6 +321,7 @@ public final class TeamManager {
 
     /**
      * 地图生成：获取x方向位置
+     *
      * @return 返回x方向位置
      */
     private static float getXPosition() {

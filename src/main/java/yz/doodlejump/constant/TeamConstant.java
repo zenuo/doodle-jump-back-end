@@ -12,7 +12,7 @@ public class TeamConstant {
     /**
      * 空队伍检查时间间隔
      */
-    public static final long EMPTY_TEAM_WATCHER_SLEEP_TIME_IN_MILLIS = 1000 * 60;
+    public static final long EMPTY_TEAM_WATCHER_SLEEP_TIME_IN_MILLIS = 1000 * 60 * 4;
 
     /**
      * 每页地图的数量

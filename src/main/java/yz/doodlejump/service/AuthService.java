@@ -59,7 +59,6 @@ public class AuthService {
     @Produces(MediaType.TEXT_PLAIN)
     public String signIn(@FormParam("name") final String name,
                          @FormParam("password") final String password) {
-
         //判定玩家是否已持有会话
         if (!SessionManager.isPlayerHoldSessionByName(name)) {
             //未持有
@@ -114,7 +113,7 @@ public class AuthService {
     @Produces(MediaType.TEXT_PLAIN)
     public int signOut(@QueryParam("session") final String sessionId) {
         if (SessionManager.isValid(sessionId)) {
-            LOGGER.info("signout");
+            LOGGER.info("signout " + sessionId);
             SessionManager.invalidate(sessionId);
             return 0;
         } else {

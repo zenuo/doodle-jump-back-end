@@ -11,7 +11,6 @@ import yz.doodlejump.core.*;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URI;
-import java.net.URL;
 
 /**
  * 主类
@@ -25,7 +24,7 @@ public class Main {
         }
 
         BasicConfigurator.configure();
-        InputStream inputStream = Main.class.getResourceAsStream("/resources/log4j2.properties");
+        InputStream inputStream = Main.class.getResourceAsStream("/log4j2.properties");
         org.apache.ibatis.logging.LogFactory.useSlf4jLogging();
         PropertyConfigurator.configure(inputStream);
         inputStream.close();
