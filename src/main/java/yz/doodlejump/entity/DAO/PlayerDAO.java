@@ -45,10 +45,12 @@ public class PlayerDAO {
 
     public static int updateRecord(final int id, final int record){
         try (SqlSession sqlSession = Data.getSqlSession()) {
-            PlayerMapper playerMapper = sqlSession.getMapper(PlayerMapper.class);
-            playerMapper.updateRecord(id, record);
-            sqlSession.commit();
-            return 0;
+            if (record > getById(id).getRecord()) {
+                PlayerMapper playerMapper = sqlSession.getMapper(PlayerMapper.class);
+                playerMapper.updateRecord(id, record);
+                sqlSession.commit();
+                return 0;
+            }
         } catch (PersistenceException e) {
             e.printStackTrace();
         }

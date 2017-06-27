@@ -40,7 +40,8 @@ public class Main {
         ResourceConfig resourceConfig = new RESTConfiguration();
 
         final Channel server = NettyHttpContainerProvider
-                .createHttp2Server(BASE_URI,
+                .createHttp2Server(
+                        BASE_URI,
                         resourceConfig,
                         null
                 );

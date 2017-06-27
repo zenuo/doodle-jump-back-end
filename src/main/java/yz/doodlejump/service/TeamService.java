@@ -23,18 +23,18 @@ public class TeamService {
      * 获取队伍对象
      *
      * @param sessionId 会话id
-     * @param teamId    队伍id
+     * @param team    队伍id
      * @return 队伍对象
      */
     @Path("get")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public Team get(@QueryParam("session") final String sessionId,
-                    @QueryParam("teamId") final int teamId) {
+                    @QueryParam("team") final int team) {
         if (SessionManager.isValid(sessionId)) {
             LOGGER.info("get " + sessionId);
-            TeamManager.updateActiveTime(teamId);
-            return TeamManager.get(teamId);
+            TeamManager.updateActiveTime(team);
+            return TeamManager.get(team);
         } else {
             return null;
         }
@@ -138,23 +138,23 @@ public class TeamService {
      * 加入队伍
      *
      * @param sessionId 会话id
-     * @param teamId    队伍id
+     * @param team    队伍id
      * @return 若加入成功，返回0；否则返回1
      */
     @Path("join")
     @GET
     @Produces(MediaType.TEXT_PLAIN)
     public int join(@QueryParam("session") final String sessionId,
-                    @QueryParam("teamId") final int teamId,
+                    @QueryParam("team") final int team,
                     @QueryParam("avator") final int avator,
                     @QueryParam("coin") final int coin
     ) {
         if (SessionManager.isValid(sessionId)) {
-            LOGGER.info("join " + teamId + " ,session: " + sessionId);
-            TeamManager.updateActiveTime(teamId);
+            LOGGER.info("join " + team + " ,session: " + sessionId);
+            TeamManager.updateActiveTime(team);
             int playerId = SessionManager.getPlayerIdBySessionId(sessionId);
-            if (TeamManager.get(teamId).join(playerId, avator, coin) == 0) {
-                SessionManager.getSession(sessionId).setTeamId(teamId);
+            if (TeamManager.get(team).join(playerId, avator, coin) == 0) {
+                SessionManager.getSession(sessionId).setTeamId(team);
                 return 0;
             } else {
                 return 1;
@@ -168,18 +168,18 @@ public class TeamService {
      * 锁定队伍
      *
      * @param sessionId 会话id
-     * @param teamId    队伍id
+     * @param team    队伍id
      * @return 若锁定成功，返回0；否则返回1
      */
     @Path("lock")
     @GET
     @Produces(MediaType.TEXT_PLAIN)
     public int lock(@QueryParam("session") final String sessionId,
-                    @QueryParam("teamId") final int teamId) {
+                    @QueryParam("team") final int team) {
         if (SessionManager.isValid(sessionId)) {
-            LOGGER.info("lock " + teamId + " ,session: " + sessionId);
-            TeamManager.updateActiveTime(teamId);
-            return TeamManager.get(teamId).lock();
+            LOGGER.info("lock " + team + " ,session: " + sessionId);
+            TeamManager.updateActiveTime(team);
+            return TeamManager.get(team).lock();
         } else {
             return 1;
         }
@@ -188,7 +188,7 @@ public class TeamService {
     /**
      * 获取地图
      * @param sessionId 会话id
-     * @param teamId 队伍id
+     * @param team 队伍id
      * @param page 页数
      * @return 地图字符串
      */
@@ -196,12 +196,12 @@ public class TeamService {
     @GET
     @Produces(MediaType.TEXT_PLAIN)
     public String map(@QueryParam("session") final String sessionId,
-                      @QueryParam("teamId") final int teamId,
+                      @QueryParam("team") final int team,
                       @QueryParam("page") final int page) {
         if (SessionManager.isValid(sessionId)) {
-            LOGGER.info("map: " + teamId + ", page: " + page);
-            TeamManager.updateActiveTime(teamId);
-            return TeamManager.getMap(teamId, page);
+            LOGGER.info("map: " + team + ", page: " + page);
+            TeamManager.updateActiveTime(team);
+            return TeamManager.getMap(team, page);
         } else {
             return null;
         }

@@ -12,10 +12,13 @@ public final class PlayerStatus implements Serializable{
     private Integer id;
 
     @JsonProperty
-    private  Integer life;
+    private  Integer l;
 
     @JsonProperty
-    private Integer coin;
+    private Integer c;
+
+    @JsonProperty
+    private Integer d;
 
     @JsonProperty
     private Float x;
@@ -26,14 +29,6 @@ public final class PlayerStatus implements Serializable{
     public PlayerStatus() {
     }
 
-    public PlayerStatus(Integer id, Integer life, Integer coin, Float x, Float y) {
-        this.id = id;
-        this.life = life;
-        this.coin = coin;
-        this.x = x;
-        this.y = y;
-    }
-
     public Integer getId() {
         return id;
     }
@@ -42,20 +37,28 @@ public final class PlayerStatus implements Serializable{
         this.id = id;
     }
 
-    public Integer getLife() {
-        return life;
+    public Integer getL() {
+        return l;
     }
 
-    public void setLife(Integer life) {
-        this.life = life;
+    public void setL(Integer l) {
+        this.l = l;
     }
 
-    public Integer getCoin() {
-        return coin;
+    public Integer getC() {
+        return c;
     }
 
-    public void setCoin(Integer coin) {
-        this.coin = coin;
+    public void setC(Integer c) {
+        this.c = c;
+    }
+
+    public Integer getD() {
+        return d;
+    }
+
+    public void setD(Integer d) {
+        this.d = d;
     }
 
     public Float getX() {
@@ -72,16 +75,5 @@ public final class PlayerStatus implements Serializable{
 
     public void setY(Float y) {
         this.y = y;
-    }
-
-    @Override
-    public String toString() {
-        return "PlayerStatus{" +
-                "id=" + id +
-                ", life=" + life +
-                ", coin=" + coin +
-                ", x=" + x +
-                ", y=" + y +
-                '}';
     }
 }

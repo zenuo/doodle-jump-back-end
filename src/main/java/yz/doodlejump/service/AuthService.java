@@ -120,4 +120,23 @@ public class AuthService {
             return 1;
         }
     }
+
+    /**
+     * 更新用户记录
+     * @param sessionId 会话id
+     * @param record 记录
+     * @return 更新成功，返回0；否则返回1
+     */
+    @Path("record")
+    @GET
+    @Produces(MediaType.TEXT_PLAIN)
+    public int updateRecord(@QueryParam("session") final String sessionId,
+                            @QueryParam("record") final int record) {
+        if (SessionManager.isValid(sessionId)) {
+            int userId = SessionManager.getPlayerIdBySessionId(sessionId);
+            return PlayerDAO.updateRecord(userId, record);
+        } else {
+            return 1;
+        }
+    }
 }
