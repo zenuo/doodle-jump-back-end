@@ -10,6 +10,8 @@ public class RESTConfiguration extends ResourceConfig {
         packages("yz.doodlejump.service");
         property(ServerProperties.WADL_FEATURE_DISABLE, true);
         property(CommonProperties.JSON_PROCESSING_FEATURE_DISABLE, true);
+        property(CommonProperties.METAINF_SERVICES_LOOKUP_DISABLE, true);
+        property(CommonProperties.OUTBOUND_CONTENT_LENGTH_BUFFER, 20480);
         register(JacksonJsonProvider.class);
     }
 }
